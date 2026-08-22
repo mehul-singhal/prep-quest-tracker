@@ -68,7 +68,7 @@ function AddProblemForm({ onAdd }) {
 
 export default function RevisitQueue({ app }) {
   const { state, markRevisitDone, addManualProblem, getDueToday, exportDSALog, updateProblemNote } = app;
-  const [filter,  setFilter]  = useState('all');
+  const [filter,  setFilter]  = useState('pending');
   const [showAdd, setShowAdd] = useState(false);
   const [copied,  setCopied]  = useState(false);
   const [notesOpen, setNotesOpen] = useState(new Set());
@@ -146,7 +146,7 @@ export default function RevisitQueue({ app }) {
                 <div className="revisit-prob-name">{prob.problem}</div>
                 {hasDue && <span className="tag tag-due" style={{ flexShrink: 0 }}>Due</span>}
               </div>
-              <div className="revisit-solved-date">Solved: {prob.solvedDate}</div>
+              <div className="revisit-solved-date">Solved: {prob.solvedDate}{prob.confirmedDate ? <span style={{ marginLeft: 6, color: 'var(--green)', fontSize: 11 }}>✓ confirmed {prob.confirmedDate}</span> : null}</div>
               {(prob.difficulty || prob.topic) && (
                 <div className="revisit-tags">
                   {prob.difficulty && <span className={`rtag ${diffObj?.cls ?? ''}`}>{prob.difficulty}</span>}

@@ -263,6 +263,7 @@ export function useAppState({ onSyncNeeded } = {}) {
     setState(prev => {
       const day = prev.weeks.flatMap(w => w.days).find(d => d.dayNumber === dayNumber);
       if (!day) return prev;
+      const wasChecked   = !!prev.checkedCriteria[key];
       const wasCleared   = day.acceptanceCriteria.every((_, i) => !!prev.checkedCriteria[`${dayNumber}-${i}`]);
       const newChecked   = { ...prev.checkedCriteria, [key]: !prev.checkedCriteria[key] };
       const isNowCleared = day.acceptanceCriteria.every((_, i) => !!newChecked[`${dayNumber}-${i}`]);
@@ -288,12 +289,25 @@ export function useAppState({ onSyncNeeded } = {}) {
         }
       }
 
+      // When checking (not unchecking) a criterion, see if its text contains a
+      // problem name from the revisit queue and stamp confirmedDate on it.
+      let revisitQueue = prev.revisitQueue;
+      if (!wasChecked) {
+        const criterionText = (day.acceptanceCriteria[criterionIdx] || '').toLowerCase();
+        revisitQueue = prev.revisitQueue.map(p =>
+          !p.confirmedDate && criterionText.includes(p.problem.toLowerCase())
+            ? { ...p, confirmedDate: todayStr() }
+            : p
+        );
+      }
+
       const newStreak = computeStreak(newChecked, prev.frozenDates, prev.weeks);
       return {
         ...prev,
         checkedCriteria: newChecked,
         totalXP,
         earlyCompletions,
+        revisitQueue,
         currentStreak: newStreak,
         longestStreak: Math.max(prev.longestStreak, newStreak),
         lastClearedDate: isNowCleared && !wasCleared ? day.date : prev.lastClearedDate,
