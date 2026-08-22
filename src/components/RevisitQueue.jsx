@@ -87,8 +87,8 @@ export default function RevisitQueue({ app }) {
   function filtered() {
     switch (filter) {
       case 'due':     return state.revisitQueue.filter(p => p.revisits.some(r => !r.done && r.date <= today));
-      case 'pending': return state.revisitQueue.filter(p => p.revisits.some(r => !r.done));
-      case 'done':    return state.revisitQueue.filter(p => p.revisits.every(r => r.done));
+      case 'pending': return state.revisitQueue.filter(p => !p.confirmedDate && p.revisits.some(r => !r.done));
+      case 'done':    return state.revisitQueue.filter(p => p.confirmedDate || p.revisits.every(r => r.done));
       default:        return state.revisitQueue;
     }
   }
