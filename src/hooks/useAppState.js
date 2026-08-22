@@ -80,6 +80,19 @@ function loadState() {
         revisitQueue = [...buildRevisitEntries(SEED_WEEK.newProblemsSolved), ...nonSeed];
       }
 
+      // Migrate: replace old Week 1 seed that had Two Pointers problems (Two Sum II, Valid Palindrome)
+      // instead of staying within Arrays & Hashing for the full week
+      const OLD_WEEK1_PROBLEMS = new Set([
+        'Two Sum', 'Contains Duplicate', 'Two Sum II', 'Valid Palindrome',
+        'Group Anagrams', 'Best Time to Buy and Sell Stock', 'Top K Frequent Elements',
+      ]);
+      const hasOldSeed = weeks[0]?.days[1]?.acceptanceCriteria?.some(c => c.includes('Two Sum II'));
+      if (hasOldSeed) {
+        weeks = [processWeek(SEED_WEEK), ...weeks.slice(1)];
+        const nonSeed = revisitQueue.filter(p => !OLD_WEEK1_PROBLEMS.has(p.problem));
+        revisitQueue = [...buildRevisitEntries(SEED_WEEK.newProblemsSolved), ...nonSeed];
+      }
+
       return {
         ...def,
         ...parsed,

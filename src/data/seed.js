@@ -1,7 +1,7 @@
 export const SEED_WEEK = {
   weekNumber: 1,
   world: 1,
-  theme: "JS core (execution context to event loop), DSA hashing/two-pointer intro, Spring Boot skeleton, Angular essentials start",
+  theme: "JS core (execution context to event loop), DSA Arrays & Hashing (NeetCode 150 order), Spring Boot skeleton, Angular essentials start",
   days: [
     {
       dayNumber: 1,
@@ -25,11 +25,11 @@ export const SEED_WEEK = {
       dayNumber: 2,
       date: "2026-08-22",
       label: "Sat, Aug 22",
-      objective: "Long Quest Day: hoisting + closures, two problems, backend + Angular both move",
+      objective: "Long Quest Day: hoisting + closures, two more Arrays & Hashing problems, backend + Angular both move",
       resources: [
         {name: "Namaste JavaScript (hoisting & closures)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+hoisting+closures"},
         {name: "Contains Duplicate (LeetCode)", url: "https://leetcode.com/problems/contains-duplicate/"},
-        {name: "Two Sum II (LeetCode)", url: "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"},
+        {name: "Valid Anagram (LeetCode)", url: "https://leetcode.com/problems/valid-anagram/"},
         {name: "Angular.dev Essentials", url: "https://angular.dev/tutorials"}
       ],
       timeBudgetMinutes: 330,
@@ -37,7 +37,7 @@ export const SEED_WEEK = {
         "Explain hoisting with one example, unaided",
         "Wrote a closure example unaided",
         "Contains Duplicate solved",
-        "Two Sum II solved",
+        "Valid Anagram solved",
         "POST endpoint added, tested via Postman",
         "angular.dev module 1 complete"
       ],
@@ -59,16 +59,16 @@ export const SEED_WEEK = {
       dayNumber: 4,
       date: "2026-08-24",
       label: "Mon, Aug 24",
-      objective: "Closures applied, more two-pointer, database enters the backend",
+      objective: "Closures applied, next Arrays & Hashing problem, database enters the backend",
       resources: [
         {name: "Namaste JavaScript (higher-order functions)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+higher+order+functions"},
-        {name: "Valid Palindrome (LeetCode)", url: "https://leetcode.com/problems/valid-palindrome/"},
+        {name: "Group Anagrams (LeetCode)", url: "https://leetcode.com/problems/group-anagrams/"},
         {name: "Spring Data JPA guide", url: "https://spring.io/guides/gs/accessing-data-jpa/"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
         "Two Sum re-solved cold (revisit due today)",
-        "Valid Palindrome solved",
+        "Group Anagrams solved",
         "First JPA entity created, connects to DB"
       ],
       xp: 65
@@ -77,16 +77,16 @@ export const SEED_WEEK = {
       dayNumber: 5,
       date: "2026-08-25",
       label: "Tue, Aug 25",
-      objective: "this/prototypes, a hashing problem, backend repository layer",
+      objective: "this/prototypes, next Arrays & Hashing problem, backend repository layer",
       resources: [
         {name: "Namaste JavaScript (this keyword & prototypes)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+this+keyword+prototype"},
-        {name: "Group Anagrams (LeetCode)", url: "https://leetcode.com/problems/group-anagrams/"}
+        {name: "Top K Frequent Elements (LeetCode)", url: "https://leetcode.com/problems/top-k-frequent-elements/"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
         "Contains Duplicate re-solved cold (revisit due today)",
-        "Two Sum II re-solved cold (revisit due today)",
-        "Group Anagrams solved",
+        "Valid Anagram re-solved cold (revisit due today)",
+        "Top K Frequent Elements solved",
         "GET/POST endpoints working"
       ],
       xp: 80
@@ -95,15 +95,15 @@ export const SEED_WEEK = {
       dayNumber: 6,
       date: "2026-08-26",
       label: "Wed, Aug 26",
-      objective: "Event loop, one more problem, backend CRUD completes",
+      objective: "Event loop, next Arrays & Hashing problem, backend CRUD completes",
       resources: [
         {name: "Namaste JavaScript (event loop)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+event+loop"},
-        {name: "Best Time to Buy and Sell Stock (LeetCode)", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"}
+        {name: "Product of Array Except Self (LeetCode)", url: "https://leetcode.com/problems/product-of-array-except-self/"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
         "Explained event loop with one example, unaided",
-        "Best Time to Buy and Sell Stock solved",
+        "Product of Array Except Self solved",
         "All 4 CRUD endpoints working"
       ],
       xp: 65
@@ -114,13 +114,13 @@ export const SEED_WEEK = {
       label: "Thu, Aug 27",
       objective: "Last new problem of the week, Angular continues, light wrap-up",
       resources: [
-        {name: "Top K Frequent Elements (LeetCode)", url: "https://leetcode.com/problems/top-k-frequent-elements/"},
+        {name: "Longest Consecutive Sequence (LeetCode)", url: "https://leetcode.com/problems/longest-consecutive-sequence/"},
         {name: "Angular.dev Essentials", url: "https://angular.dev/tutorials"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
-        "Valid Palindrome re-solved cold (revisit due today)",
-        "Top K Frequent Elements solved",
+        "Group Anagrams re-solved cold (revisit due today)",
+        "Longest Consecutive Sequence solved",
         "angular.dev module 2 complete",
         "Demoed all 4 CRUD endpoints, no notes"
       ],
@@ -130,11 +130,11 @@ export const SEED_WEEK = {
   newProblemsSolved: [
     {problem: "Two Sum", solvedDate: "2026-08-21"},
     {problem: "Contains Duplicate", solvedDate: "2026-08-22"},
-    {problem: "Two Sum II", solvedDate: "2026-08-22"},
-    {problem: "Valid Palindrome", solvedDate: "2026-08-24"},
-    {problem: "Group Anagrams", solvedDate: "2026-08-25"},
-    {problem: "Best Time to Buy and Sell Stock", solvedDate: "2026-08-26"},
-    {problem: "Top K Frequent Elements", solvedDate: "2026-08-27"}
+    {problem: "Valid Anagram", solvedDate: "2026-08-22"},
+    {problem: "Group Anagrams", solvedDate: "2026-08-24"},
+    {problem: "Top K Frequent Elements", solvedDate: "2026-08-25"},
+    {problem: "Product of Array Except Self", solvedDate: "2026-08-26"},
+    {problem: "Longest Consecutive Sequence", solvedDate: "2026-08-27"}
   ]
 };
 
@@ -187,7 +187,7 @@ export const WORLDS = [
 ];
 
 export const WEEK_THEMES = [
-  {week: 1, theme: "JS core, DSA hashing/two-pointer, Spring Boot skeleton, Angular start"},
+  {week: 1, theme: "JS core, DSA Arrays & Hashing (NeetCode 150 order), Spring Boot skeleton, Angular start"},
   {week: 2, theme: "JS async, DSA two-pointer/sliding window, Spring Boot JPA relationships, Angular standalone components"},
   {week: 3, theme: "JS prototypes/OOP, DSA sliding window + stacks/queues, Spring Boot JWT start, Angular routing"},
   {week: 4, theme: "DSA linked lists + binary search, Spring Boot JWT complete, Angular reactive forms, Dutch It backend integration"},
