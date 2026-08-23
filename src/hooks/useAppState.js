@@ -93,34 +93,42 @@ function loadState() {
         revisitQueue = [...buildRevisitEntries(SEED_WEEK.newProblemsSolved), ...nonSeed];
       }
 
-      // Migration: full Week 1 reset — old Aug 21 start → corrected Aug 22 start,
-      // revisit queue reduced to only Contains Duplicate (the one actually solved),
-      // checked state cleared except "Contains Duplicate solved" on Day 1.
-      const hasAug21Start = weeks[0]?.days[0]?.date === '2026-08-21';
-      if (hasAug21Start) {
+      // Migration: restore correct Week 1 (Aug 21 start, Two Sum Day 1, Contains Duplicate Day 2).
+      // Fires if bc2924d's wrong seed is present (Aug 22 start) or the old f187ffd seed is
+      // present (Aug 21 start but Day 5 had 4 criteria instead of 3).
+      // Safe to fire on fresh state too: new SEED_WEEK has Aug 21 + Day 5 has 3 criteria → false.
+      const needsW1Correction =
+        weeks[0]?.days[0]?.date === '2026-08-22' ||
+        (weeks[0]?.days[0]?.date === '2026-08-21' && weeks[0]?.days[4]?.acceptanceCriteria?.length === 4);
+      if (needsW1Correction) {
         weeks = [processWeek(SEED_WEEK), ...weeks.slice(1)];
-        const OLD_W1 = new Set([
+        const W1_PROBLEMS = new Set([
           'Two Sum', 'Contains Duplicate', 'Valid Anagram', 'Group Anagrams',
           'Top K Frequent Elements', 'Product of Array Except Self', 'Longest Consecutive Sequence',
         ]);
-        const nonOld = revisitQueue.filter(p => !OLD_W1.has(p.problem));
+        const nonW1 = revisitQueue.filter(p => !W1_PROBLEMS.has(p.problem));
+        const [twoSumEntry] = buildRevisitEntries([{ problem: 'Two Sum', solvedDate: '2026-08-21' }]);
+        twoSumEntry.confirmedDate = '2026-08-21';
         const [cdEntry] = buildRevisitEntries([{ problem: 'Contains Duplicate', solvedDate: '2026-08-22' }]);
         cdEntry.confirmedDate = '2026-08-22';
-        revisitQueue = [cdEntry, ...nonOld];
-        // Keep only non-week-1 criteria (day numbers 1–7 are all week 1)
+        revisitQueue = [twoSumEntry, cdEntry, ...nonW1];
         const kept = {};
         for (const [k, v] of Object.entries(parsed.checkedCriteria || {})) {
           const dn = parseInt(k.split('-')[0], 10);
           if (dn >= 1 && dn <= 7) continue;
           kept[k] = v;
         }
-        kept['1-0'] = true; // Contains Duplicate solved
+        // Day 1 fully cleared
+        kept['1-0'] = true;
+        kept['1-1'] = true;
+        kept['1-2'] = true;
+        // Day 2: only "Contains Duplicate solved" (criterion index 2)
+        kept['2-2'] = true;
         parsed.checkedCriteria = kept;
-        parsed.totalXP = 0;
+        parsed.totalXP = 65;
         parsed.currentStreak = 0;
-        parsed.longestStreak = 0;
-        parsed.lastClearedDate = null;
-        // Clear early-completion bonuses from week 1 days
+        parsed.longestStreak = Math.max(parsed.longestStreak || 0, 1);
+        parsed.lastClearedDate = '2026-08-21';
         const newEarly = {};
         for (const [k, v] of Object.entries(parsed.earlyCompletions || {})) {
           const dn = parseInt(k, 10);
