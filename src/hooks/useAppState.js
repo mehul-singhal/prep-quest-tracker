@@ -94,48 +94,58 @@ function loadState() {
       }
 
       // Migration: restore correct Week 1 (Aug 21 start, Two Sum Day 1, Contains Duplicate Day 2).
-      // Fires if bc2924d's wrong seed is present (Aug 22 start) or the old f187ffd seed is
-      // present (Aug 21 start but Day 5 had 4 criteria instead of 3).
-      // Safe to fire on fresh state too: new SEED_WEEK has Aug 21 + Day 5 has 3 criteria → false.
-      const needsW1Correction =
+      // isBrokenSeed: bc2924d (Aug 22 start) or f187ffd (Aug 21 + Day 5 had 4 criteria) → full reset.
+      // isMissingQueue: correct seed but W1 queue entries were stripped → queue rebuild only.
+      const isBrokenSeed =
         weeks[0]?.days[0]?.date === '2026-08-22' ||
         (weeks[0]?.days[0]?.date === '2026-08-21' && weeks[0]?.days[4]?.acceptanceCriteria?.length === 4);
-      if (needsW1Correction) {
+      const isMissingQueue =
+        weeks[0]?.days[0]?.date === '2026-08-21' &&
+        !revisitQueue.some(p => p.problem === 'Group Anagrams');
+      if (isBrokenSeed || isMissingQueue) {
         weeks = [processWeek(SEED_WEEK), ...weeks.slice(1)];
         const W1_PROBLEMS = new Set([
           'Two Sum', 'Contains Duplicate', 'Valid Anagram', 'Group Anagrams',
           'Top K Frequent Elements', 'Product of Array Except Self', 'Longest Consecutive Sequence',
         ]);
         const nonW1 = revisitQueue.filter(p => !W1_PROBLEMS.has(p.problem));
-        const [twoSumEntry] = buildRevisitEntries([{ problem: 'Two Sum', solvedDate: '2026-08-21' }]);
-        twoSumEntry.confirmedDate = '2026-08-21';
-        const [cdEntry] = buildRevisitEntries([{ problem: 'Contains Duplicate', solvedDate: '2026-08-22' }]);
-        cdEntry.confirmedDate = '2026-08-22';
-        revisitQueue = [twoSumEntry, cdEntry, ...nonW1];
-        const kept = {};
-        for (const [k, v] of Object.entries(parsed.checkedCriteria || {})) {
-          const dn = parseInt(k.split('-')[0], 10);
-          if (dn >= 1 && dn <= 7) continue;
-          kept[k] = v;
+        const allW1Entries = buildRevisitEntries([
+          { problem: 'Two Sum',                     solvedDate: '2026-08-21' },
+          { problem: 'Contains Duplicate',           solvedDate: '2026-08-22' },
+          { problem: 'Valid Anagram',                solvedDate: '2026-08-22' },
+          { problem: 'Group Anagrams',               solvedDate: '2026-08-24' },
+          { problem: 'Top K Frequent Elements',      solvedDate: '2026-08-25' },
+          { problem: 'Product of Array Except Self', solvedDate: '2026-08-26' },
+          { problem: 'Longest Consecutive Sequence', solvedDate: '2026-08-27' },
+        ]);
+        allW1Entries[0].confirmedDate = '2026-08-21'; // Two Sum
+        allW1Entries[1].confirmedDate = '2026-08-22'; // Contains Duplicate
+        revisitQueue = [...allW1Entries, ...nonW1];
+
+        if (isBrokenSeed) {
+          const kept = {};
+          for (const [k, v] of Object.entries(parsed.checkedCriteria || {})) {
+            const dn = parseInt(k.split('-')[0], 10);
+            if (dn >= 1 && dn <= 7) continue;
+            kept[k] = v;
+          }
+          kept['1-0'] = true;
+          kept['1-1'] = true;
+          kept['1-2'] = true;
+          kept['2-2'] = true;
+          parsed.checkedCriteria = kept;
+          parsed.totalXP = 65;
+          parsed.currentStreak = 0;
+          parsed.longestStreak = Math.max(parsed.longestStreak || 0, 1);
+          parsed.lastClearedDate = '2026-08-21';
+          const newEarly = {};
+          for (const [k, v] of Object.entries(parsed.earlyCompletions || {})) {
+            const dn = parseInt(k, 10);
+            if (dn >= 1 && dn <= 7) continue;
+            newEarly[k] = v;
+          }
+          parsed.earlyCompletions = newEarly;
         }
-        // Day 1 fully cleared
-        kept['1-0'] = true;
-        kept['1-1'] = true;
-        kept['1-2'] = true;
-        // Day 2: only "Contains Duplicate solved" (criterion index 2)
-        kept['2-2'] = true;
-        parsed.checkedCriteria = kept;
-        parsed.totalXP = 65;
-        parsed.currentStreak = 0;
-        parsed.longestStreak = Math.max(parsed.longestStreak || 0, 1);
-        parsed.lastClearedDate = '2026-08-21';
-        const newEarly = {};
-        for (const [k, v] of Object.entries(parsed.earlyCompletions || {})) {
-          const dn = parseInt(k, 10);
-          if (dn >= 1 && dn <= 7) continue;
-          newEarly[k] = v;
-        }
-        parsed.earlyCompletions = newEarly;
       }
 
       return {

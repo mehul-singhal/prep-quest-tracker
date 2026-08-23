@@ -128,7 +128,12 @@ export const SEED_WEEK = {
   ],
   newProblemsSolved: [
     {problem: "Two Sum", solvedDate: "2026-08-21"},
-    {problem: "Contains Duplicate", solvedDate: "2026-08-22"}
+    {problem: "Contains Duplicate", solvedDate: "2026-08-22"},
+    {problem: "Valid Anagram", solvedDate: "2026-08-22"},
+    {problem: "Group Anagrams", solvedDate: "2026-08-24"},
+    {problem: "Top K Frequent Elements", solvedDate: "2026-08-25"},
+    {problem: "Product of Array Except Self", solvedDate: "2026-08-26"},
+    {problem: "Longest Consecutive Sequence", solvedDate: "2026-08-27"}
   ]
 };
 
