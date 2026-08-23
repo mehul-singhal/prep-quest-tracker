@@ -1,140 +1,139 @@
 export const SEED_WEEK = {
   weekNumber: 1,
   world: 1,
-  theme: "JS core (execution context to event loop), DSA Arrays & Hashing (NeetCode 150 order), Spring Boot skeleton, Angular essentials start",
+  theme: "JS core (execution context to event loop), DSA Arrays & Hashing (NeetCode 150 order, one problem per day), Spring Boot skeleton to full CRUD, Angular essentials start",
   days: [
     {
       dayNumber: 1,
-      date: "2026-08-21",
-      label: "Fri, Aug 21",
-      objective: "Kick off: JS execution model, first real DSA win, backend hello-world",
+      date: "2026-08-22",
+      label: "Sat, Aug 22",
+      objective: "First Arrays & Hashing problem, JS execution model, backend hello-world",
       resources: [
         {name: "Namaste JavaScript (execution context & call stack)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+execution+context"},
-        {name: "Two Sum (LeetCode)", url: "https://leetcode.com/problems/two-sum/"},
+        {name: "Contains Duplicate (LeetCode)", url: "https://leetcode.com/problems/contains-duplicate/"},
         {name: "Spring Initializr", url: "https://start.spring.io/"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
+        "Contains Duplicate solved",
         "Wrote 2-3 sentences, own words: what is the call stack / execution context",
-        "Solved Two Sum with the O(n) hash-map approach",
         "Spring Boot project generated, running locally, default endpoint responds"
       ],
       xp: 65
     },
     {
       dayNumber: 2,
-      date: "2026-08-22",
-      label: "Sat, Aug 22",
-      objective: "Long Quest Day: hoisting + closures, two more Arrays & Hashing problems, backend + Angular both move",
+      date: "2026-08-23",
+      label: "Sun, Aug 23",
+      objective: "Finish what Day 1 left open, plus the next Arrays & Hashing problem",
       resources: [
-        {name: "Namaste JavaScript (hoisting & closures)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+hoisting+closures"},
-        {name: "Contains Duplicate (LeetCode)", url: "https://leetcode.com/problems/contains-duplicate/"},
+        {name: "Namaste JavaScript (execution context & call stack)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+execution+context"},
         {name: "Valid Anagram (LeetCode)", url: "https://leetcode.com/problems/valid-anagram/"},
-        {name: "Angular.dev Essentials", url: "https://angular.dev/tutorials"}
+        {name: "Spring Initializr", url: "https://start.spring.io/"}
       ],
       timeBudgetMinutes: 330,
       acceptanceCriteria: [
-        "Explain hoisting with one example, unaided",
-        "Wrote a closure example unaided",
-        "Contains Duplicate solved",
-        "Valid Anagram solved",
-        "POST endpoint added, tested via Postman",
-        "angular.dev module 1 complete"
+        "Wrote 2-3 sentences, own words: what is the call stack / execution context",
+        "Spring Boot project generated, running locally, default endpoint responds",
+        "Valid Anagram solved"
       ],
-      xp: 110
+      xp: 85
     },
     {
       dayNumber: 3,
-      date: "2026-08-23",
-      label: "Sun, Aug 23",
-      objective: "Recovery + light check-in, consolidate Fri+Sat, nothing forced",
-      resources: [],
+      date: "2026-08-24",
+      label: "Mon, Aug 24",
+      objective: "Hoisting, next problem, first backend endpoint beyond hello-world",
+      resources: [
+        {name: "Namaste JavaScript (hoisting & scope)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+hoisting"},
+        {name: "Two Sum (LeetCode)", url: "https://leetcode.com/problems/two-sum/"},
+        {name: "Spring: Building a RESTful Web Service", url: "https://spring.io/guides/gs/rest-service/"}
+      ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
-        "Explained call stack, hoisting, closures out loud/in writing, no notes"
+        "Contains Duplicate re-solved cold (revisit due today)",
+        "Explain hoisting with one example, unaided",
+        "Two Sum solved with the O(n) hash-map approach",
+        "POST endpoint added, tested via Postman"
       ],
-      xp: 30
+      xp: 65
     },
     {
       dayNumber: 4,
-      date: "2026-08-24",
-      label: "Mon, Aug 24",
-      objective: "Closures applied, next Arrays & Hashing problem, database enters the backend",
+      date: "2026-08-25",
+      label: "Tue, Aug 25",
+      objective: "Closures, next problem, database enters the backend",
       resources: [
-        {name: "Namaste JavaScript (higher-order functions)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+higher+order+functions"},
+        {name: "Namaste JavaScript (closures)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+closures"},
         {name: "Group Anagrams (LeetCode)", url: "https://leetcode.com/problems/group-anagrams/"},
         {name: "Spring Data JPA guide", url: "https://spring.io/guides/gs/accessing-data-jpa/"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
-        "Two Sum re-solved cold (revisit due today)",
+        "Valid Anagram re-solved cold (revisit due today)",
+        "Wrote a closure example unaided",
         "Group Anagrams solved",
-        "First JPA entity created, connects to DB"
+        "JPA entity created, connects to DB"
       ],
       xp: 65
     },
     {
       dayNumber: 5,
-      date: "2026-08-25",
-      label: "Tue, Aug 25",
-      objective: "this/prototypes, next Arrays & Hashing problem, backend repository layer",
+      date: "2026-08-26",
+      label: "Wed, Aug 26",
+      objective: "this/prototypes, next problem, backend repository layer",
       resources: [
         {name: "Namaste JavaScript (this keyword & prototypes)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+this+keyword+prototype"},
         {name: "Top K Frequent Elements (LeetCode)", url: "https://leetcode.com/problems/top-k-frequent-elements/"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
-        "Contains Duplicate re-solved cold (revisit due today)",
-        "Valid Anagram re-solved cold (revisit due today)",
+        "Two Sum re-solved cold (revisit due today)",
         "Top K Frequent Elements solved",
         "GET/POST endpoints working"
       ],
-      xp: 80
+      xp: 65
     },
     {
       dayNumber: 6,
-      date: "2026-08-26",
-      label: "Wed, Aug 26",
-      objective: "Event loop, next Arrays & Hashing problem, backend CRUD completes",
+      date: "2026-08-27",
+      label: "Thu, Aug 27",
+      objective: "Event loop, next problem, CRUD + Angular both move",
       resources: [
         {name: "Namaste JavaScript (event loop)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+event+loop"},
-        {name: "Product of Array Except Self (LeetCode)", url: "https://leetcode.com/problems/product-of-array-except-self/"}
+        {name: "Product of Array Except Self (LeetCode)", url: "https://leetcode.com/problems/product-of-array-except-self/"},
+        {name: "Angular.dev Essentials", url: "https://angular.dev/tutorials"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
-        "Explained event loop with one example, unaided",
+        "Group Anagrams re-solved cold (revisit due today)",
         "Product of Array Except Self solved",
-        "All 4 CRUD endpoints working"
+        "All 4 CRUD endpoints working",
+        "angular.dev module 1 complete"
       ],
       xp: 65
     },
     {
       dayNumber: 7,
-      date: "2026-08-27",
-      label: "Thu, Aug 27",
-      objective: "Last new problem of the week, Angular continues, light wrap-up",
+      date: "2026-08-28",
+      label: "Fri, Aug 28",
+      objective: "Last Arrays & Hashing problem this week, Angular continues, light wrap-up",
       resources: [
         {name: "Longest Consecutive Sequence (LeetCode)", url: "https://leetcode.com/problems/longest-consecutive-sequence/"},
         {name: "Angular.dev Essentials", url: "https://angular.dev/tutorials"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
-        "Group Anagrams re-solved cold (revisit due today)",
+        "Top K Frequent Elements re-solved cold (revisit due today)",
         "Longest Consecutive Sequence solved",
         "angular.dev module 2 complete",
         "Demoed all 4 CRUD endpoints, no notes"
       ],
-      xp: 65
+      xp: 60
     }
   ],
   newProblemsSolved: [
-    {problem: "Two Sum", solvedDate: "2026-08-21"},
-    {problem: "Contains Duplicate", solvedDate: "2026-08-22"},
-    {problem: "Valid Anagram", solvedDate: "2026-08-22"},
-    {problem: "Group Anagrams", solvedDate: "2026-08-24"},
-    {problem: "Top K Frequent Elements", solvedDate: "2026-08-25"},
-    {problem: "Product of Array Except Self", solvedDate: "2026-08-26"},
-    {problem: "Longest Consecutive Sequence", solvedDate: "2026-08-27"}
+    {problem: "Contains Duplicate", solvedDate: "2026-08-22"}
   ]
 };
 

@@ -93,6 +93,43 @@ function loadState() {
         revisitQueue = [...buildRevisitEntries(SEED_WEEK.newProblemsSolved), ...nonSeed];
       }
 
+      // Migration: full Week 1 reset — old Aug 21 start → corrected Aug 22 start,
+      // revisit queue reduced to only Contains Duplicate (the one actually solved),
+      // checked state cleared except "Contains Duplicate solved" on Day 1.
+      const hasAug21Start = weeks[0]?.days[0]?.date === '2026-08-21';
+      if (hasAug21Start) {
+        weeks = [processWeek(SEED_WEEK), ...weeks.slice(1)];
+        const OLD_W1 = new Set([
+          'Two Sum', 'Contains Duplicate', 'Valid Anagram', 'Group Anagrams',
+          'Top K Frequent Elements', 'Product of Array Except Self', 'Longest Consecutive Sequence',
+        ]);
+        const nonOld = revisitQueue.filter(p => !OLD_W1.has(p.problem));
+        const [cdEntry] = buildRevisitEntries([{ problem: 'Contains Duplicate', solvedDate: '2026-08-22' }]);
+        cdEntry.confirmedDate = '2026-08-22';
+        revisitQueue = [cdEntry, ...nonOld];
+        // Keep only non-week-1 criteria (day numbers 1–7 are all week 1)
+        const kept = {};
+        for (const [k, v] of Object.entries(parsed.checkedCriteria || {})) {
+          const dn = parseInt(k.split('-')[0], 10);
+          if (dn >= 1 && dn <= 7) continue;
+          kept[k] = v;
+        }
+        kept['1-0'] = true; // Contains Duplicate solved
+        parsed.checkedCriteria = kept;
+        parsed.totalXP = 0;
+        parsed.currentStreak = 0;
+        parsed.longestStreak = 0;
+        parsed.lastClearedDate = null;
+        // Clear early-completion bonuses from week 1 days
+        const newEarly = {};
+        for (const [k, v] of Object.entries(parsed.earlyCompletions || {})) {
+          const dn = parseInt(k, 10);
+          if (dn >= 1 && dn <= 7) continue;
+          newEarly[k] = v;
+        }
+        parsed.earlyCompletions = newEarly;
+      }
+
       return {
         ...def,
         ...parsed,
