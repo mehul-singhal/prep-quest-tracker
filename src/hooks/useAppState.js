@@ -149,8 +149,8 @@ function loadState() {
         }
       }
 
-      // Migration: user resumed Aug 29 after break; shift days 2-7 forward, reset queue to solved-only.
-      // Detects the old Day 2 date (Aug 22); one-shot — after migration Day 2 is Aug 29.
+      // Migration: user resumed Aug 29 after break; shift days 2-7 forward.
+      // Detects old Day 2 date (Aug 22); one-shot — after migration Day 2 is Aug 29.
       const isDateShifted =
         weeks[0]?.days[0]?.date === '2026-08-21' &&
         weeks[0]?.days[1]?.date === '2026-08-22';
@@ -161,9 +161,17 @@ function loadState() {
           'Top K Frequent Elements', 'Product of Array Except Self', 'Longest Consecutive Sequence',
         ]);
         const nonW1 = revisitQueue.filter(p => !W1_PROBLEMS.has(p.problem));
-        const twoSumEntry = buildRevisitEntries([{ problem: 'Two Sum', solvedDate: '2026-08-21' }]);
-        twoSumEntry[0].confirmedDate = '2026-08-21';
-        revisitQueue = [...twoSumEntry, ...nonW1];
+        const allW1Entries = buildRevisitEntries([
+          { problem: 'Two Sum',                     solvedDate: '2026-08-21' },
+          { problem: 'Contains Duplicate',           solvedDate: '2026-08-29' },
+          { problem: 'Valid Anagram',                solvedDate: '2026-08-29' },
+          { problem: 'Group Anagrams',               solvedDate: '2026-08-31' },
+          { problem: 'Top K Frequent Elements',      solvedDate: '2026-09-01' },
+          { problem: 'Product of Array Except Self', solvedDate: '2026-09-02' },
+          { problem: 'Longest Consecutive Sequence', solvedDate: '2026-09-03' },
+        ]);
+        allW1Entries[0].confirmedDate = '2026-08-21'; // Two Sum — only actually solved so far
+        revisitQueue = [...allW1Entries, ...nonW1];
         const kept = {};
         for (const [k, v] of Object.entries(parsed.checkedCriteria || {})) {
           const dn = parseInt(k.split('-')[0], 10);
@@ -185,6 +193,33 @@ function loadState() {
           newEarly[k] = v;
         }
         parsed.earlyCompletions = newEarly;
+      }
+
+      // Migration: isDateShifted previously ran but only kept Two Sum; add remaining W1 planned problems.
+      // Detects Aug 29 Day 2 (post-shift) without Contains Duplicate in queue.
+      const isQueueMissingPlanned =
+        weeks[0]?.days[0]?.date === '2026-08-21' &&
+        weeks[0]?.days[1]?.date === '2026-08-29' &&
+        !revisitQueue.some(p => p.problem === 'Contains Duplicate');
+      if (isQueueMissingPlanned) {
+        const W1_PROBLEMS = new Set([
+          'Two Sum', 'Contains Duplicate', 'Valid Anagram', 'Group Anagrams',
+          'Top K Frequent Elements', 'Product of Array Except Self', 'Longest Consecutive Sequence',
+        ]);
+        const nonW1 = revisitQueue.filter(p => !W1_PROBLEMS.has(p.problem));
+        const existingTwoSum = revisitQueue.find(p => p.problem === 'Two Sum');
+        const allW1Entries = buildRevisitEntries([
+          { problem: 'Two Sum',                     solvedDate: '2026-08-21' },
+          { problem: 'Contains Duplicate',           solvedDate: '2026-08-29' },
+          { problem: 'Valid Anagram',                solvedDate: '2026-08-29' },
+          { problem: 'Group Anagrams',               solvedDate: '2026-08-31' },
+          { problem: 'Top K Frequent Elements',      solvedDate: '2026-09-01' },
+          { problem: 'Product of Array Except Self', solvedDate: '2026-09-02' },
+          { problem: 'Longest Consecutive Sequence', solvedDate: '2026-09-03' },
+        ]);
+        if (existingTwoSum?.confirmedDate) allW1Entries[0].confirmedDate = existingTwoSum.confirmedDate;
+        else allW1Entries[0].confirmedDate = '2026-08-21';
+        revisitQueue = [...allW1Entries, ...nonW1];
       }
 
       return {
