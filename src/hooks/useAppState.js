@@ -101,6 +101,7 @@ function loadState() {
         (weeks[0]?.days[0]?.date === '2026-08-21' && weeks[0]?.days[4]?.acceptanceCriteria?.length === 4);
       const isMissingQueue =
         weeks[0]?.days[0]?.date === '2026-08-21' &&
+        weeks[0]?.days[1]?.date === '2026-08-22' &&
         !revisitQueue.some(p => p.problem === 'Group Anagrams');
       if (isBrokenSeed || isMissingQueue) {
         weeks = [processWeek(SEED_WEEK), ...weeks.slice(1)];
@@ -146,6 +147,44 @@ function loadState() {
           }
           parsed.earlyCompletions = newEarly;
         }
+      }
+
+      // Migration: user resumed Aug 29 after break; shift days 2-7 forward, reset queue to solved-only.
+      // Detects the old Day 2 date (Aug 22); one-shot — after migration Day 2 is Aug 29.
+      const isDateShifted =
+        weeks[0]?.days[0]?.date === '2026-08-21' &&
+        weeks[0]?.days[1]?.date === '2026-08-22';
+      if (isDateShifted) {
+        weeks = [processWeek(SEED_WEEK), ...weeks.slice(1)];
+        const W1_PROBLEMS = new Set([
+          'Two Sum', 'Contains Duplicate', 'Valid Anagram', 'Group Anagrams',
+          'Top K Frequent Elements', 'Product of Array Except Self', 'Longest Consecutive Sequence',
+        ]);
+        const nonW1 = revisitQueue.filter(p => !W1_PROBLEMS.has(p.problem));
+        const twoSumEntry = buildRevisitEntries([{ problem: 'Two Sum', solvedDate: '2026-08-21' }]);
+        twoSumEntry[0].confirmedDate = '2026-08-21';
+        revisitQueue = [...twoSumEntry, ...nonW1];
+        const kept = {};
+        for (const [k, v] of Object.entries(parsed.checkedCriteria || {})) {
+          const dn = parseInt(k.split('-')[0], 10);
+          if (dn >= 2 && dn <= 7) continue;
+          kept[k] = v;
+        }
+        kept['1-0'] = true;
+        kept['1-1'] = true;
+        kept['1-2'] = true;
+        parsed.checkedCriteria = kept;
+        parsed.totalXP = 65;
+        parsed.currentStreak = 0;
+        parsed.longestStreak = Math.max(parsed.longestStreak || 0, 1);
+        parsed.lastClearedDate = '2026-08-21';
+        const newEarly = {};
+        for (const [k, v] of Object.entries(parsed.earlyCompletions || {})) {
+          const dn = parseInt(k, 10);
+          if (dn >= 2 && dn <= 7) continue;
+          newEarly[k] = v;
+        }
+        parsed.earlyCompletions = newEarly;
       }
 
       return {
