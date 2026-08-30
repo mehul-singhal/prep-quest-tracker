@@ -222,6 +222,37 @@ function loadState() {
         revisitQueue = [...allW1Entries, ...nonW1];
       }
 
+      // Migration: W1 queue has old solvedDates (Aug 22-27 schedule) but week already has new schedule (Day 2 = Aug 29).
+      // importData from gist bypasses loadState, so this can arrive undetected by earlier migrations.
+      const hasOldQueueDates =
+        weeks[0]?.days[1]?.date === '2026-08-29' &&
+        revisitQueue.some(p => p.problem === 'Contains Duplicate' && p.solvedDate < '2026-08-29');
+      if (hasOldQueueDates) {
+        const W1_PROBLEMS = new Set([
+          'Two Sum', 'Contains Duplicate', 'Valid Anagram', 'Group Anagrams',
+          'Top K Frequent Elements', 'Product of Array Except Self', 'Longest Consecutive Sequence',
+        ]);
+        const nonW1 = revisitQueue.filter(p => !W1_PROBLEMS.has(p.problem));
+        const confirmedByProblem = {};
+        for (const p of revisitQueue) {
+          if (p.confirmedDate) confirmedByProblem[p.problem] = p.confirmedDate;
+        }
+        const allW1Entries = buildRevisitEntries([
+          { problem: 'Two Sum',                     solvedDate: '2026-08-21' },
+          { problem: 'Contains Duplicate',           solvedDate: '2026-08-29' },
+          { problem: 'Valid Anagram',                solvedDate: '2026-08-29' },
+          { problem: 'Group Anagrams',               solvedDate: '2026-08-31' },
+          { problem: 'Top K Frequent Elements',      solvedDate: '2026-09-01' },
+          { problem: 'Product of Array Except Self', solvedDate: '2026-09-02' },
+          { problem: 'Longest Consecutive Sequence', solvedDate: '2026-09-03' },
+        ]);
+        for (const entry of allW1Entries) {
+          if (confirmedByProblem[entry.problem]) entry.confirmedDate = confirmedByProblem[entry.problem];
+        }
+        if (!allW1Entries[0].confirmedDate) allW1Entries[0].confirmedDate = '2026-08-21';
+        revisitQueue = [...allW1Entries, ...nonW1];
+      }
+
       return {
         ...def,
         ...parsed,
@@ -569,7 +600,9 @@ export function useAppState({ onSyncNeeded } = {}) {
     try {
       const parsed = JSON.parse(jsonStr);
       if (!parsed.weeks || !Array.isArray(parsed.weeks)) return { ok: false, error: 'Invalid backup: missing "weeks" array.' };
-      setState({ ...getDefault(), ...parsed, customTasks: parsed.customTasks || {}, timeBlocks: parsed.timeBlocks || {} });
+      // Persist first so loadState migrations run on the imported data
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed)); } catch {}
+      setState(loadState());
       return { ok: true };
     } catch (e) { return { ok: false, error: `JSON parse error: ${e.message}` }; }
   }, [setState]);
