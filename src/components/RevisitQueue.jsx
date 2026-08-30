@@ -82,7 +82,7 @@ function TrackerView({ problems, today, markRevisitDone }) {
                 <td style={{ padding: '6px 8px' }}>
                   <div style={{ fontWeight: 500 }}>{prob.problem}</div>
                   <div style={{ fontSize: 10, color: 'var(--text-3)' }}>
-                    {prob.confirmedDate ? <span style={{ color: 'var(--green)' }}>✓ solved</span> : <span>solved {prob.solvedDate}</span>}
+                    {prob.confirmedDate ? <span style={{ color: 'var(--green)' }}>✓ solved</span> : <span style={{ color: 'var(--text-3)' }}>target {prob.solvedDate}</span>}
                   </div>
                 </td>
                 {prob.revisits.map((r, i) => slotCell(r, prob.id, i))}
@@ -149,7 +149,7 @@ export default function RevisitQueue({ app }) {
   function filtered() {
     switch (filter) {
       case 'due':     return state.revisitQueue.filter(p => p.revisits.some(r => !r.done && r.date <= today));
-      case 'pending': return state.revisitQueue.filter(p => !p.confirmedDate && p.revisits.some(r => !r.done));
+      case 'pending': return state.revisitQueue.filter(p => !p.confirmedDate && p.solvedDate <= today && p.revisits.some(r => !r.done));
       case 'done':    return state.revisitQueue.filter(p => p.confirmedDate || p.revisits.every(r => r.done));
       case 'tracker': return state.revisitQueue;
       default:        return state.revisitQueue;
@@ -223,7 +223,7 @@ export default function RevisitQueue({ app }) {
                 <div className="revisit-prob-name">{prob.problem}</div>
                 {hasDue && <span className="tag tag-due" style={{ flexShrink: 0 }}>Due</span>}
               </div>
-              <div className="revisit-solved-date">Solved: {prob.solvedDate}{prob.confirmedDate ? <span style={{ marginLeft: 6, color: 'var(--green)', fontSize: 11 }}>✓ confirmed {prob.confirmedDate}</span> : null}</div>
+              <div className="revisit-solved-date">{prob.confirmedDate ? `Solved: ${prob.solvedDate}` : `Target: ${prob.solvedDate}`}{prob.confirmedDate ? <span style={{ marginLeft: 6, color: 'var(--green)', fontSize: 11 }}>✓ confirmed {prob.confirmedDate}</span> : null}</div>
               {(prob.difficulty || prob.topic) && (
                 <div className="revisit-tags">
                   {prob.difficulty && <span className={`rtag ${diffObj?.cls ?? ''}`}>{prob.difficulty}</span>}
