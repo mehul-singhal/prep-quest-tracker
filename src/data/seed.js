@@ -30,7 +30,7 @@ export const SEED_WEEK = {
         {name: "Namaste JavaScript (hoisting & closures)", url: "https://www.youtube.com/results?search_query=Namaste+JavaScript+Akshay+Saini+hoisting+closures"},
         {name: "Contains Duplicate (LeetCode)", url: "https://leetcode.com/problems/contains-duplicate/"},
         {name: "Valid Anagram (LeetCode)", url: "https://leetcode.com/problems/valid-anagram/"},
-        {name: "Angular.dev Essentials", url: "https://angular.dev/tutorials"}
+        {name: "angular.dev Essentials — Composition with components", url: "https://angular.dev/essentials/components"}
       ],
       timeBudgetMinutes: 330,
       acceptanceCriteria: [
@@ -39,7 +39,7 @@ export const SEED_WEEK = {
         "Contains Duplicate solved",
         "Valid Anagram solved",
         "POST endpoint added, tested via Postman",
-        "angular.dev module 1 complete"
+        "angular.dev 'Composition with components' section complete"
       ],
       xp: 110
     },
@@ -114,13 +114,13 @@ export const SEED_WEEK = {
       objective: "Last new problem this week, Angular continues, light wrap-up",
       resources: [
         {name: "Longest Consecutive Sequence (LeetCode)", url: "https://leetcode.com/problems/longest-consecutive-sequence/"},
-        {name: "Angular.dev Essentials", url: "https://angular.dev/tutorials"}
+        {name: "angular.dev Essentials — Reactivity with signals", url: "https://angular.dev/essentials/signals"}
       ],
       timeBudgetMinutes: 150,
       acceptanceCriteria: [
         "Group Anagrams re-solved cold (revisit due today)",
         "Longest Consecutive Sequence solved",
-        "angular.dev module 2 complete",
+        "angular.dev 'Reactivity with signals' section complete",
         "Demoed all 4 CRUD endpoints, no notes"
       ],
       xp: 65
