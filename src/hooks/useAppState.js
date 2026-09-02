@@ -98,7 +98,9 @@ function loadState() {
       // isMissingQueue: correct seed but W1 queue entries were stripped → queue rebuild only.
       const isBrokenSeed =
         weeks[0]?.days[0]?.date === '2026-08-22' ||
-        (weeks[0]?.days[0]?.date === '2026-08-21' && weeks[0]?.days[4]?.acceptanceCriteria?.length === 4);
+        (weeks[0]?.days[0]?.date === '2026-08-21' &&
+         weeks[0]?.days[1]?.date !== '2026-08-29' &&
+         weeks[0]?.days[4]?.acceptanceCriteria?.length === 4);
       const isMissingQueue =
         weeks[0]?.days[0]?.date === '2026-08-21' &&
         weeks[0]?.days[1]?.date === '2026-08-22' &&
